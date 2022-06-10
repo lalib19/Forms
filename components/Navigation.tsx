@@ -11,13 +11,14 @@ const Stack = createNativeStackNavigator();
 
 export interface NavProps {
   navigation: any
+  route: any
 }
 
 
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator >
+      <Stack.Navigator screenOptions={{ headerShown: false }} >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="SignUpFirst" component={SignUpFirst} />
         <Stack.Screen name="SignUpSecond" component={SignUpSecond} />
@@ -31,4 +32,3 @@ export default Navigation;
 
 const styles = StyleSheet.create({});
 
-// screenOptions={{ headerShown: false }}

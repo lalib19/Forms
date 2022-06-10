@@ -25,7 +25,10 @@ const Home: React.FC<NavProps> = ({ navigation }) => {
       input.length === 3 &&
       (input[2] === "com" || input[2] === "fr")
     ) {
-      navigation.navigate("SignInSuccess");
+      navigation.navigate("SignInSuccess", {
+        firstEmail: emailField,
+        firstPassword: firstPassword
+      });
     } else {
       setError("This is not a valid email address")
     }

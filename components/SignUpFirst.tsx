@@ -1,27 +1,28 @@
 import React, { useState } from "react";
-import {
-  Button,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Button, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { NavProps } from "./Navigation";
 import InputComponent from "./InputComponent";
 
 const image = require("../assets/ian-dooley-TevqnfbI0Zc-unsplash.jpg");
 
 const SignUpFirst: React.FC<NavProps> = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
+  const [firstEmail, setFirstEmail] = useState("");
   const [firstPassword, setFirstPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
   const [error, setError] = useState("");
 
   const nextPage = () => {
-    if (firstName === "" || firstPassword === "") {
+    let input = firstEmail.split(/@|\./);
+    if (input.length !== 3 || (input[2] !== "com" && input[2] !== "fr")) {
+      setError("This is not a valid email address")
+    } else if (firstEmail === "" || firstPassword === "") {
       setError("You need to fill all the fields");
     } else if (firstPassword === secondPassword) {
-      navigation.navigate("SignUpSecond");
+      navigation.navigate("SignUpSecond", {
+        firstEmail: firstEmail,
+        firstPassword: firstPassword,
+        secondPassword: secondPassword,
+      });
     } else {
       setError("Your passwords don't match");
     }
@@ -32,7 +33,7 @@ const SignUpFirst: React.FC<NavProps> = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.encart}>
           <Text style={styles.title}>Become a part of our community !</Text>
-          <InputComponent placeholder="First Name" setFirstName={setFirstName} />
+          <InputComponent placeholder="Email" setEmailField={setFirstEmail} />
           <InputComponent
             placeholder="Password"
             setFirstPassword={setFirstPassword}

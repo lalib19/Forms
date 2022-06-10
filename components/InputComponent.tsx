@@ -5,61 +5,33 @@ import { Ionicons } from "@expo/vector-icons";
 interface InputProps {
   placeholder: string;
   setFirstName?: any;
+  setLastName?: any;
   setFirstPassword?: any;
   setSecondPassword?: any;
   setEmailField?: any;
+  handleConfirm?: any;
+  hideDatePicker?: any;
+  showDatePicker?: any;
+  datePicked?: any;
+  setFirstEmail?: any;
 }
 
 const InputComponent: React.FC<InputProps> = ({
   placeholder,
   setFirstName,
+  setLastName,
   setFirstPassword,
   setEmailField,
   setSecondPassword,
+  // handleConfirm,
+  hideDatePicker,
+  showDatePicker,
+  datePicked,
+  setFirstEmail,
 }) => {
   const [focused, setFocused] = useState(true);
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
-
-  // const checkValid = () => {
-  //   let input = email.split(/@|\./);
-  // if (
-  //   focused &&
-  //   input.length === 3 &&
-  //   (input[2] === "com" || input[2] === "fr")
-  // ) {
-  // } else if (!email) {
-  //   setEmailField(false);
-  //   return (
-  //     <Text style={{ color: "red", marginTop: 5 }}>
-  //       A valid email address is needed
-  //     </Text>
-  //   );
-  // } else if (focused) {
-  //   return (
-  //     <Text style={{ color: "red", marginTop: 5 }}>
-  //       This is not a valid email
-  //     </Text>
-  //   );
-  // }
-
-  //   if (!email && !focused) {
-  //     // setEmailField(false);
-  //     return (
-  //       <Text style={{ color: "red", marginTop: 5 }}>
-  //         An email address is needed
-  //       </Text>
-  //     );
-  //   } else if (
-  //     // !focused &&
-  //     input.length !== 3 &&
-  //     (input[2] === "com" || input[2] === "fr")
-  //   ) {
-  //     return(
-  //       <Text>This is not a valid email address</Text>
-  //     )
-  //   }
-  // };
 
   const renderInput = () => {
     if (placeholder === "Password") {
@@ -109,6 +81,7 @@ const InputComponent: React.FC<InputProps> = ({
           onChangeText={(text) => {
             setEmail(text);
             setEmailField(text);
+            // setFirstEmail(text);
           }}
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
@@ -124,16 +97,36 @@ const InputComponent: React.FC<InputProps> = ({
           }}
         />
       );
+    } else if (placeholder === "Last Name") {
+      return (
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          onChangeText={(text) => {
+            setLastName(text);
+          }}
+        />
+      );
+    } else if (placeholder === "Date of Birth") {
+      return (
+        <View style={styles.password}>
+          <TextInput
+            style={styles.input}
+            placeholder={placeholder}
+            onPressIn={showDatePicker}
+            value={datePicked}
+            onBlur={hideDatePicker}
+            blurOnSubmit={true}
+            // onChange={handleConfirm}
+          />
+          <Ionicons name="calendar" size={20} style={styles.icon} />
+        </View>
+      );
     } else {
       return <TextInput style={styles.input} placeholder={placeholder} />;
     }
   };
-  return (
-    <View style={styles.validation}>
-      {renderInput()}
-      {/* {checkValid()} */}
-    </View>
-  );
+  return <View style={styles.validation}>{renderInput()}</View>;
 };
 
 export default InputComponent;
@@ -158,6 +151,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    right: "15%",
+    right: "18%",
   },
 });

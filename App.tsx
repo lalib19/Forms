@@ -1,10 +1,10 @@
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./components/Home";
-import SignInSuccess from "./components/SignInSuccess";
-import Navigation from "./components/Navigation";
 import React from "react";
+import Navigation from "./components/Navigation";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import Home from "./components/Home";
+// import SignInSuccess from "./components/SignInSuccess";
 
 export default function App() {
   return (

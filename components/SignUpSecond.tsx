@@ -1,16 +1,49 @@
-import { Button, ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import InputComponent from "./InputComponent";
 import { NavProps } from "./Navigation";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "./DatePicker";
+// import DateTimePicker from "@react-native-community/datetimepicker";
 // import DatePicker from 'react-native-date-picker'
 
 const image = require("../assets/ian-dooley-TevqnfbI0Zc-unsplash.jpg");
 
-const SignUpSecond: React.FC<NavProps> = ({ navigation }) => {
+const SignUpSecond: React.FC<NavProps> = ({ route, navigation }) => {
   const [civ, setCiv] = useState("");
-  const [date, setDate] = useState("");
+  const [dob, setDob] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState("");
+
+  const { firstPassword, secondPassword, firstEmail } = route.params;
+
+  const dateOfBirth = (newDob: any) => {
+    setDob(newDob);
+  };
+
+  const nextPage = () => {
+    if (civ === "" || dob === "" || firstName === "" || lastName === "") {
+      setError("You need to fill all the fields");
+    } else {
+      navigation.navigate("SignInSuccess", {
+        firstPassword: firstPassword,
+        secondPassword: secondPassword,
+        firstEmail: firstEmail,
+        firstName: firstName,
+        lastName: lastName,
+        civ: civ,
+        dob: dob,
+      });
+    }
+  };
 
   return (
     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -28,18 +61,19 @@ const SignUpSecond: React.FC<NavProps> = ({ navigation }) => {
             <Picker.Item label="Madame" value="Madame" />
             <Picker.Item label="Autre" value="Autre" />
           </Picker>
-          <InputComponent placeholder="First Name" />
-          <InputComponent placeholder="Last Name" />
+          <InputComponent
+            placeholder="First Name"
+            setFirstName={setFirstName}
+          />
+          <InputComponent placeholder="Last Name" setLastName={setLastName} />
 
-          {/* <InputComponent placeholder="Date place holder" /> */}
-          {/* <DateTimePicker value={new Date()} onChange={() => setDate} /> */}
+          {/* <TextInput onChange={() => console.log(dob, firstEmail, firstPassword, secondPassword)} /> */}
+
+          <DatePicker dateOfBirth={dateOfBirth} />
+          <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>
 
           <View style={{ marginTop: 20 }}>
-            <Button
-              title="Sign Up"
-              color="tomato"
-              onPress={() => navigation.navigate("SignInSuccess")}
-            />
+            <Button title="Sign Up" color="tomato" onPress={nextPage} />
           </View>
         </View>
       </View>
@@ -53,7 +87,6 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: "100%",
-    // height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -62,12 +95,10 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-end",
     textAlign: "center",
-    // borderWidth: 3,
   },
   encart: {
     flex: 0.55,
     width: "100%",
-    // height: "60%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
@@ -79,8 +110,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
-    // marginTop: 20,
-    // borderRadius: 5,
   },
   title: {
     position: "absolute",
